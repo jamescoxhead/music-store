@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v2
 
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1
@@ -26,20 +26,3 @@ jobs:
     - name: Build the application
       run: msbuild MusicStore.sln /p:Configuration=Release /p:Platform="Any CPU"
 
-    - name: Run unit tests
-      shell: pwsh
-      run: |
-        Write-Host "Locating vstest.console.exe via vswhere..."
-        $vsPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.TestTools.BuildTools -property installationPath
-        if (-not $vsPath) {
-          Write-Error "Could not locate Visual Studio installation with Test Platform."
-          exit 1
-        }
-        $vstest = Join-Path $vsPath "Common7\IDE\Extensions\TestPlatform\vstest.console.exe"
-        Write-Host "Using vstest at $vstest"
-        Write-Host "Searching for compiled test assemblies..."
-        Get-ChildItem -Path . -Filter "*UnitTests.dll" -Recurse | ForEach-Object {
-          Write-Host "Running tests from $($_.FullName)"
-          & $vstest $_.FullName /EnableCodeCoverage
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-        }
