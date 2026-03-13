@@ -6,7 +6,20 @@ Example application for testing patterns, libraries, and app modernization techn
 
 For now, the project is a .NET Framework application so will require Visual Studio on a PC to run.
 
-Open MusicStore.sln in Visual Studio. Ensure MusicStore.Web is set to the default project, and run the application (either `F5` or `ctrl+F5` depending on whether or not you want to debug).
+Open MusicStore.sln in Visual Studio. Ensure MusicStore.Web is set to the default project.
+
+Create a *ConnectionStrings.user.config* file in the root of the Web project with the following content:
+
+```xml
+<connectionStrings>
+  <clear />
+  <add name="MusicStoreEntities" connectionString="" providerName="System.Data.SqlClient" />
+</connectionStrings>
+```
+
+Add your SQL Server connection string. For local development, SQL Server LocalDB can be used with the following connection string - `Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=MusicStore;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\MusicStore.mdf`
+
+To run the application, either `F5` or `ctrl+F5` depending on whether or not you want to debug.
 
 ## Roadmap
 

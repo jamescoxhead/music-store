@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using MusicStore.Web.Models;
 
 namespace MusicStore.Web
 {
@@ -11,6 +13,8 @@ namespace MusicStore.Web
     {
         protected void Application_Start()
         {
+            Database.SetInitializer(new SeedData());
+
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
